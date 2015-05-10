@@ -7,12 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		064624A31AFC44DC000C597A /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 0646249E1AFC44DC000C597A /* TFHpple.m */; };
+		064624A41AFC44DC000C597A /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 064624A01AFC44DC000C597A /* TFHppleElement.m */; };
+		064624A51AFC44DC000C597A /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 064624A21AFC44DC000C597A /* XPathQuery.m */; };
+		064B03561AFCC5A700C6548F /* TopicNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B03541AFCC5A700C6548F /* TopicNewsViewController.swift */; };
+		064B03571AFCC5A700C6548F /* TopicNewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 064B03551AFCC5A700C6548F /* TopicNewsViewController.xib */; };
+		064B035A1AFCC60E00C6548F /* CustomViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B03581AFCC60E00C6548F /* CustomViewCell.swift */; };
+		064B035B1AFCC60E00C6548F /* CustomViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 064B03591AFCC60E00C6548F /* CustomViewCell.xib */; };
+		064B03DB1AFC51EB005ADB9E /* LiveGoodlineParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064B03DA1AFC51EB005ADB9E /* LiveGoodlineParser.swift */; };
+		064FD4871AFCDC3B00B948BF /* DetailNewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064FD4851AFCDC3B00B948BF /* DetailNewsViewController.swift */; };
+		064FD4881AFCDC3B00B948BF /* DetailNewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 064FD4861AFCDC3B00B948BF /* DetailNewsViewController.xib */; };
+		065C394F1AFBCE2300AD18BD /* LiveGoodlineDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065C394E1AFBCE2300AD18BD /* LiveGoodlineDownloader.swift */; };
 		06F23F3F1AFB8DFA0021644D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F23F3E1AFB8DFA0021644D /* AppDelegate.swift */; };
-		06F23F411AFB8DFA0021644D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F23F401AFB8DFA0021644D /* ViewController.swift */; };
-		06F23F441AFB8DFA0021644D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06F23F421AFB8DFA0021644D /* Main.storyboard */; };
 		06F23F461AFB8DFA0021644D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06F23F451AFB8DFA0021644D /* Images.xcassets */; };
 		06F23F491AFB8DFA0021644D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06F23F471AFB8DFA0021644D /* LaunchScreen.xib */; };
 		06F23F551AFB8DFA0021644D /* live_goodline_infoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F23F541AFB8DFA0021644D /* live_goodline_infoTests.swift */; };
+		06F23F631AFB98560021644D /* NewsElementContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F23F621AFB98560021644D /* NewsElementContainer.swift */; };
+		1CC52577C84712CE112687EC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CD830DEC2658A344558D39D /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,16 +37,33 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0646249D1AFC44DC000C597A /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TFHpple.h; path = TFHpple/TFHpple.h; sourceTree = "<group>"; };
+		0646249E1AFC44DC000C597A /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TFHpple.m; path = TFHpple/TFHpple.m; sourceTree = "<group>"; };
+		0646249F1AFC44DC000C597A /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TFHppleElement.h; path = TFHpple/TFHppleElement.h; sourceTree = "<group>"; };
+		064624A01AFC44DC000C597A /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TFHppleElement.m; path = TFHpple/TFHppleElement.m; sourceTree = "<group>"; };
+		064624A11AFC44DC000C597A /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XPathQuery.h; path = TFHpple/XPathQuery.h; sourceTree = "<group>"; };
+		064624A21AFC44DC000C597A /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XPathQuery.m; path = TFHpple/XPathQuery.m; sourceTree = "<group>"; };
+		064B03541AFCC5A700C6548F /* TopicNewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicNewsViewController.swift; sourceTree = "<group>"; };
+		064B03551AFCC5A700C6548F /* TopicNewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopicNewsViewController.xib; sourceTree = "<group>"; };
+		064B03581AFCC60E00C6548F /* CustomViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomViewCell.swift; sourceTree = "<group>"; };
+		064B03591AFCC60E00C6548F /* CustomViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomViewCell.xib; sourceTree = "<group>"; };
+		064B03DA1AFC51EB005ADB9E /* LiveGoodlineParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveGoodlineParser.swift; sourceTree = "<group>"; };
+		064FD4851AFCDC3B00B948BF /* DetailNewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailNewsViewController.swift; sourceTree = "<group>"; };
+		064FD4861AFCDC3B00B948BF /* DetailNewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailNewsViewController.xib; sourceTree = "<group>"; };
+		065C394E1AFBCE2300AD18BD /* LiveGoodlineDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveGoodlineDownloader.swift; sourceTree = "<group>"; };
+		065C39501AFBD16300AD18BD /* live goodline info-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "live goodline info-Bridging-Header.h"; sourceTree = "<group>"; };
 		06F23F391AFB8DFA0021644D /* live goodline info.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "live goodline info.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06F23F3D1AFB8DFA0021644D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06F23F3E1AFB8DFA0021644D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		06F23F401AFB8DFA0021644D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		06F23F431AFB8DFA0021644D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		06F23F451AFB8DFA0021644D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		06F23F481AFB8DFA0021644D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		06F23F4E1AFB8DFA0021644D /* live goodline infoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "live goodline infoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06F23F531AFB8DFA0021644D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06F23F541AFB8DFA0021644D /* live_goodline_infoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = live_goodline_infoTests.swift; sourceTree = "<group>"; };
+		06F23F621AFB98560021644D /* NewsElementContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsElementContainer.swift; sourceTree = "<group>"; };
+		1BB557C8786376F04D770892 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		203DB198426A7F0EAF8F93DD /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		3CD830DEC2658A344558D39D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CC52577C84712CE112687EC /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,12 +85,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		064624A61AFC44ED000C597A /* TFHpple */ = {
+			isa = PBXGroup;
+			children = (
+				0646249D1AFC44DC000C597A /* TFHpple.h */,
+				0646249E1AFC44DC000C597A /* TFHpple.m */,
+				0646249F1AFC44DC000C597A /* TFHppleElement.h */,
+				064624A01AFC44DC000C597A /* TFHppleElement.m */,
+				064624A11AFC44DC000C597A /* XPathQuery.h */,
+				064624A21AFC44DC000C597A /* XPathQuery.m */,
+			);
+			name = TFHpple;
+			sourceTree = "<group>";
+		};
 		06F23F301AFB8DFA0021644D = {
 			isa = PBXGroup;
 			children = (
 				06F23F3B1AFB8DFA0021644D /* live goodline info */,
 				06F23F511AFB8DFA0021644D /* live goodline infoTests */,
 				06F23F3A1AFB8DFA0021644D /* Products */,
+				C8CE82DA1DE7B81D329A50D7 /* Pods */,
+				254946308EFF09120DD0405F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,12 +121,13 @@
 		06F23F3B1AFB8DFA0021644D /* live goodline info */ = {
 			isa = PBXGroup;
 			children = (
-				06F23F3E1AFB8DFA0021644D /* AppDelegate.swift */,
-				06F23F401AFB8DFA0021644D /* ViewController.swift */,
-				06F23F421AFB8DFA0021644D /* Main.storyboard */,
+				064624A61AFC44ED000C597A /* TFHpple */,
+				06F23F601AFB98060021644D /* Model */,
+				06F23F611AFB980E0021644D /* GUI */,
 				06F23F451AFB8DFA0021644D /* Images.xcassets */,
 				06F23F471AFB8DFA0021644D /* LaunchScreen.xib */,
 				06F23F3C1AFB8DFA0021644D /* Supporting Files */,
+				065C39501AFBD16300AD18BD /* live goodline info-Bridging-Header.h */,
 			);
 			path = "live goodline info";
 			sourceTree = "<group>";
@@ -112,6 +157,47 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		06F23F601AFB98060021644D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				06F23F621AFB98560021644D /* NewsElementContainer.swift */,
+				065C394E1AFBCE2300AD18BD /* LiveGoodlineDownloader.swift */,
+				064B03DA1AFC51EB005ADB9E /* LiveGoodlineParser.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		06F23F611AFB980E0021644D /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				06F23F3E1AFB8DFA0021644D /* AppDelegate.swift */,
+				064B03541AFCC5A700C6548F /* TopicNewsViewController.swift */,
+				064B03551AFCC5A700C6548F /* TopicNewsViewController.xib */,
+				064B03581AFCC60E00C6548F /* CustomViewCell.swift */,
+				064B03591AFCC60E00C6548F /* CustomViewCell.xib */,
+				064FD4851AFCDC3B00B948BF /* DetailNewsViewController.swift */,
+				064FD4861AFCDC3B00B948BF /* DetailNewsViewController.xib */,
+			);
+			name = GUI;
+			sourceTree = "<group>";
+		};
+		254946308EFF09120DD0405F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3CD830DEC2658A344558D39D /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8CE82DA1DE7B81D329A50D7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				203DB198426A7F0EAF8F93DD /* Pods.debug.xcconfig */,
+				1BB557C8786376F04D770892 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -119,9 +205,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06F23F581AFB8DFA0021644D /* Build configuration list for PBXNativeTarget "live goodline info" */;
 			buildPhases = (
+				CBE2CF7E9E4560C20E7449BD /* Check Pods Manifest.lock */,
 				06F23F351AFB8DFA0021644D /* Sources */,
 				06F23F361AFB8DFA0021644D /* Frameworks */,
 				06F23F371AFB8DFA0021644D /* Resources */,
+				5AE64254E2FDF6F1D456EE88 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -192,9 +280,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06F23F441AFB8DFA0021644D /* Main.storyboard in Resources */,
 				06F23F491AFB8DFA0021644D /* LaunchScreen.xib in Resources */,
+				064B035B1AFCC60E00C6548F /* CustomViewCell.xib in Resources */,
 				06F23F461AFB8DFA0021644D /* Images.xcassets in Resources */,
+				064B03571AFCC5A700C6548F /* TopicNewsViewController.xib in Resources */,
+				064FD4881AFCDC3B00B948BF /* DetailNewsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,13 +297,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5AE64254E2FDF6F1D456EE88 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CBE2CF7E9E4560C20E7449BD /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		06F23F351AFB8DFA0021644D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06F23F411AFB8DFA0021644D /* ViewController.swift in Sources */,
+				064624A41AFC44DC000C597A /* TFHppleElement.m in Sources */,
+				064B035A1AFCC60E00C6548F /* CustomViewCell.swift in Sources */,
+				064B03561AFCC5A700C6548F /* TopicNewsViewController.swift in Sources */,
+				065C394F1AFBCE2300AD18BD /* LiveGoodlineDownloader.swift in Sources */,
+				064FD4871AFCDC3B00B948BF /* DetailNewsViewController.swift in Sources */,
 				06F23F3F1AFB8DFA0021644D /* AppDelegate.swift in Sources */,
+				064624A51AFC44DC000C597A /* XPathQuery.m in Sources */,
+				064B03DB1AFC51EB005ADB9E /* LiveGoodlineParser.swift in Sources */,
+				064624A31AFC44DC000C597A /* TFHpple.m in Sources */,
+				06F23F631AFB98560021644D /* NewsElementContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,14 +367,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		06F23F421AFB8DFA0021644D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				06F23F431AFB8DFA0021644D /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		06F23F471AFB8DFA0021644D /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -338,21 +461,69 @@
 		};
 		06F23F591AFB8DFA0021644D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 203DB198426A7F0EAF8F93DD /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"/usr/include/libxml2\"",
+				);
 				INFOPLIST_FILE = "live goodline info/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"Pods-AFNetworking\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-lxml2",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "live goodline info/live goodline info-Bridging-Header.h";
 			};
 			name = Debug;
 		};
 		06F23F5A1AFB8DFA0021644D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BB557C8786376F04D770892 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"/usr/include/libxml2\"",
+				);
 				INFOPLIST_FILE = "live goodline info/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"Pods-AFNetworking\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-lxml2",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "live goodline info/live goodline info-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -409,6 +580,7 @@
 				06F23F5A1AFB8DFA0021644D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		06F23F5B1AFB8DFA0021644D /* Build configuration list for PBXNativeTarget "live goodline infoTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +589,7 @@
 				06F23F5D1AFB8DFA0021644D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
