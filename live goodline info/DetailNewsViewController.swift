@@ -20,22 +20,26 @@ class DetailNewsViewController: UIViewController
 	
 	@IBOutlet weak var progressControl: UIActivityIndicatorView!
 	
-	var titleText: String = ""
-	var newsUrl: String = ""
+	// переменные для передачи информации, пока экземпляры контролов еще не создались.
+	var titleText: String	= ""
+	var newsUrl: String		= ""
+	
     override func viewDidLoad()
 	{
         super.viewDidLoad()
+		
+		// настройка контролов
 		self.progressControl.hidesWhenStopped	= true
-        // Do any additional setup after loading the view.
 		self.titleLabel.numberOfLines	= 0
 		self.titleLabel.text			= titleText
+		self.bodyLabel.text				= ""
 		self.scrollView.setTranslatesAutoresizingMaskIntoConstraints(false)
 		
-		//bodyLabel = UILabel()
 		self.bodyLabel.numberOfLines	= 0
 		self.scrollView.addSubview(bodyLabel)
 		self.progressControl.startAnimating()
-				// начать загрузку страницы
+		
+		// начать загрузку страницы
 		var downloader:LiveGoodlineDownloader = LiveGoodlineDownloader()
 		downloader.getTopicPage(self.newsUrl, onResponseHandler:  onReceivedNews)
     }
