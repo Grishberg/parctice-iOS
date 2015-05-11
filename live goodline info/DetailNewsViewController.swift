@@ -20,6 +20,8 @@ class DetailNewsViewController: UIViewController
 	
 	@IBOutlet weak var progressControl: UIActivityIndicatorView!
 	
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    
 	// переменные для передачи информации, пока экземпляры контролов еще не создались.
 	var titleText: String	= ""
 	var newsUrl: String		= ""
@@ -40,18 +42,18 @@ class DetailNewsViewController: UIViewController
 		self.progressControl.startAnimating()
 		
 		// начать загрузку страницы
-		var downloader:LiveGoodlineDownloader = LiveGoodlineDownloader()
+        var downloader:LiveGoodlineDownloader = LiveGoodlineDownloader(moc: managedObjectContext!)
 		downloader.getTopicPage(self.newsUrl, onResponseHandler:  onReceivedNews)
     }
 	
 	// функция вызывается при загрузке страницы
-	func onReceivedNews(newsElement:NewsElementContainer)
+	func onReceivedNews(body:String)
 	{
 		// остановить индикатор хода процесса
 		self.progressControl.stopAnimating()
 		// отобразить страницу
 		var attrStr = NSAttributedString(
-			data: newsElement.body.dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!,
+			data: body.dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!,
 			options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
 			documentAttributes: nil,
 			error: nil)

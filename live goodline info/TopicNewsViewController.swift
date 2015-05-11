@@ -7,14 +7,18 @@
 //
 
 import UIKit
+import CoreData
 
 class TopicNewsViewController: UIViewController {
 
 	let ROW_HEIGHT				= CGFloat(101)
 	let CUSTOM_CELL_XIB_NAME	= "CustomViewCell"
 	let ROWS_COUNT_BEFORE_START_UPDATE:Int	= 4
+    
 	@IBOutlet weak var tableView: UITableView!
-	var refreshControl:UIRefreshControl!
+	let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    
+    var refreshControl:UIRefreshControl!
 	var newsElements:[NewsElementContainer] = []
 	var loadMoreStatus	= false
 	var currentPage		= 1
@@ -59,10 +63,23 @@ class TopicNewsViewController: UIViewController {
 	//--------------- подгрузить новую порцию данных
 	func loadMore(page: Int, append:Bool)
 	{
+        var date:NSDate? = nil
+        if self.newsElements.count > 0
+        {
+            if append == true
+            {
+                date    = self.newsElements[ self.newsElements.count - 1].getDate()
+            }
+            else
+            {
+                date    = self.newsElements[0].getDate()
+            }
+        }
 		loadMoreStatus = true
-		var downloader:LiveGoodlineDownloader = LiveGoodlineDownloader()
+		var downloader:LiveGoodlineDownloader = LiveGoodlineDownloader(moc: self.managedObjectContext!)
 		downloader.getTopicList(page
 			, startIndex: self.newsElements.count
+            , date: date
 			, onResponseHandler: onReceivedTopicNews
 			, onUpdateImageHandler: onReceivedUpdateImage
 			, append: append)
