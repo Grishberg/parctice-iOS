@@ -50,7 +50,7 @@ class NewsElementContainer: NSObject
 		}
 	}
 
-    convenience init(title:String, body: String, url:String, imageUrl:String, date:NSDate)
+    convenience init(title:String, body: String, url:String, imageUrl:String, date:NSDate, image: NSData)
     {
         self.init()
         self.title		= title
@@ -58,6 +58,10 @@ class NewsElementContainer: NSObject
         self.url		= url
         self.imageUrl	= imageUrl
         self.dateString = self.getDateStrFromDate(date)
+        if image.length > 0
+        {
+            self.previewImage   = UIImage(data: image)
+        }
         
         let components = NSCalendarUnit.CalendarUnitDay |
             NSCalendarUnit.CalendarUnitHour |

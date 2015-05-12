@@ -57,90 +57,120 @@ class LiveGoodlineDownloader: NSObject
         // спарсить, добавить в кэш новые данные( если есть),
         // скачать картинки по новым данным, отправить в tableView и обновить у кеши
         // вывести из кеши данные
-        if pageIndex > 1
+        // выполнять в потоке
+        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+        dispatch_async(backgroundQueue,
         {
-            // поискать в кэше
-            // выполнять в потоке
-            let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
-            dispatch_async(backgroundQueue,
+
+            if pageIndex > 1
             {
+                // поискать в кэше
                 cachedNews = self.getData(date)
-                if cachedNews.count == 10
-                {
-                    // UI  поток
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        // есть нужные данные в кэше, можно их и вернуть
-                        onResponseHandler(cachedNews, pageIndex, append)
-                    })
-                }
-            })
-        }
-        
-		let manager = AFHTTPRequestOperationManager()
-		manager.responseSerializer = AFHTTPResponseSerializer()
-		manager.GET( urlString, parameters: nil,
-			success:
-			{ (operation: AFHTTPRequestOperation!,
-				responseObject: AnyObject!) in
-				
-				// получили ответ, responseObject - это NSData
-				let data:NSData	= responseObject as! NSData
-
-				// парсим данные
-				let parser		= LiveGoodlineParser()
-				var topicList:[NewsElementContainer]	= parser.parseTopicListNews(data)
-
+            }
+            
+            if cachedNews.count == 10
+            {
+                // если в кэше данных хватает - отображаем из кэша
+                // UI  поток
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    // есть нужные данные в кэше, можно их и вернуть
+                    
+                    //исключить кэшированные элементы с картинками
+                    var arrayIndexesForUpdate: [ImageQueueStruct] = []
+                    for currentNewsElement in cachedNews
+                    {
+                        if count(currentNewsElement.imageUrl) > 0 && currentNewsElement.previewImage == nil
+                        {
+                            // в очередь на скачивание картинок добавлять только элементы с пустой картинкой и непустой ссылкой
+                            let itemForUpdateImage	= ImageQueueStruct(url: currentNewsElement.imageUrl, index: imageIndex)
+                            arrayIndexesForUpdate.append(itemForUpdateImage)
+                        }
+                        
+                        imageIndex++;
+                    }
+                    
+                    onResponseHandler(cachedNews, pageIndex, append)
+                    println("данные из кэша")
+                    if arrayIndexesForUpdate.count > 0
+                    {
+                        // запустить очередь обновления картинок
+                        self.updateImages(arrayIndexesForUpdate, handler:onUpdateImageHandler)
+                    }
+                })
                 
-				//////////////////////////////////////
-				// для отладки пул ту рефреша
-				//////////////////////////////////////
-				if pageIndex == 1 && append
-				{
-					topicList.removeAtIndex(0)
-				}
-				//////////////////////////////////////
+            }
+            else
+            {
+                // если в кеше данных недостаточно, загрузить из сети
+                let manager = AFHTTPRequestOperationManager()
+                manager.responseSerializer = AFHTTPResponseSerializer()
+                manager.GET( urlString, parameters: nil,
+                    success:
+                    { (operation: AFHTTPRequestOperation!,
+                        responseObject: AnyObject!) in
+                        
+                        // получили ответ, responseObject - это NSData
+                        let data:NSData	= responseObject as! NSData
 
-                for var i = 0; i < cachedNews.count; i++
-                {
-                    if i < topicList.count
-                    {
-                        topicList[i] = cachedNews[i]
+                        // парсим данные
+                        let parser		= LiveGoodlineParser()
+                        var topicList:[NewsElementContainer]	= parser.parseTopicListNews(data)
+                        
+                        
+                        //////////////////////////////////////
+                        // для отладки пул ту рефреша
+                        //////////////////////////////////////
+                        if pageIndex == 1 && append
+                        {
+                            topicList.removeAtIndex(0)
+                        }
+                        //////////////////////////////////////
+
+                        for var i = 0; i < cachedNews.count; i++
+                        {
+                            if i < topicList.count
+                            {
+                                topicList[i] = cachedNews[i]
+                            }
+                            else
+                            {
+                                topicList.append(cachedNews[i])
+                            }
+                        }
+                        //self.addNessesaryNews(topicList, append:append)
+
+                        // создаем список url с индексами для фоновой загрузки изображений
+                        // индексы нужны для обновления нужного row tableView
+                        //исключить кэшированные элементы с картинками
+                        var arrayIndexesForUpdate: [ImageQueueStruct] = []
+                        for currentNewsElement in topicList
+                        {
+                            if count(currentNewsElement.imageUrl) > 0 && currentNewsElement.previewImage == nil
+                            {
+                                // в очередь на скачивание картинок добавлять только элементы с пустой картинкой и непустой ссылкой
+                                let itemForUpdateImage	= ImageQueueStruct(url: currentNewsElement.imageUrl, index: imageIndex)
+                                arrayIndexesForUpdate.append(itemForUpdateImage)
+                            }
+
+                            imageIndex++;
+                        }
+                        // возвращаем результат в виде массива
+                        onResponseHandler(topicList, pageIndex, append)
+                        println("данные из сети")
+                        
+                        // запустить очередь обновления картинок
+                        self.updateImages(arrayIndexesForUpdate, handler:onUpdateImageHandler)
+                    },
+                    failure:
+                    { (operation: AFHTTPRequestOperation!,
+                        error: NSError!) in
+                        println("Error: " + error.localizedDescription)
                     }
-                    else
-                    {
-                        topicList.append(cachedNews[i])
-                    }
-                }
-                self.addNessesaryNews(topicList, append:append)
+                )
+            }
+        })
 
-				// создаем список url с индексами для фоновой загрузки изображений
-				// индексы нужны для обновления нужного row tableView
-                //TODO: исключить кэшированные элементы с картинками
-				var arrayIndexesForUpdate: [ImageQueueStruct] = []
-				for currentNewsElement in topicList
-				{
-					if count(currentNewsElement.imageUrl) > 0 && currentNewsElement.previewImage == nil
-					{
-                        // в очередь на скачивание картинок добавлять только элементы с пустой картинкой и непустой ссылкой
-						let itemForUpdateImage	= ImageQueueStruct(url: currentNewsElement.imageUrl, index: imageIndex)
-						arrayIndexesForUpdate.append(itemForUpdateImage)
-					}
-
-					imageIndex++;
-				}
-				// возвращаем результат в виде массива
-				onResponseHandler(topicList, pageIndex, append)
-				
-				// запустить очередь обновления картинок
-				self.updateImages(arrayIndexesForUpdate, handler:onUpdateImageHandler)
-			},
-			failure:
-			{ (operation: AFHTTPRequestOperation!,
-				error: NSError!) in
-				println("Error: " + error.localizedDescription)
-			}
-		)
 	}
 	// фоновое обновление картинок
 	private func updateImages(itemsForUpdate: [ImageQueueStruct], handler: (Int, UIImage?)->Void )
@@ -186,11 +216,14 @@ class LiveGoodlineDownloader: NSObject
         {
                 
             let cachedNewsBody:String  = self.getNewsByUrl(url)
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
+            
                 if count(cachedNewsBody) > 0
                 {
-                    onResponseHandler(cachedNewsBody)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        onResponseHandler(cachedNewsBody)
+                        println("данные о странице из кэша")
+                    })
                 }
                 else
                 {
@@ -207,6 +240,9 @@ class LiveGoodlineDownloader: NSObject
                             // парсим данные
                             let parser		= LiveGoodlineParser()
                             onResponseHandler( parser.parseTopicNews(data).body)
+                            println("данные о странице из сети")
+                            
+                            // обновить в кэше данные о странице
                             self.updateNewsBodyInCash(url, body: parser.parseTopicNews(data).body)
 
                         },
@@ -217,7 +253,7 @@ class LiveGoodlineDownloader: NSObject
                         }
                     )
                 }
-            })
+            
         })
 	}
     
@@ -306,16 +342,18 @@ class LiveGoodlineDownloader: NSObject
         let request = NSFetchRequest(entityName: "NewsItemEntity")
         
         request.returnsObjectsAsFaults  = false
-        
         request.fetchLimit              = 1
         request.predicate               = NSPredicate(format: "imageUrl = %@", imageUrl)
-        //TODO: возможно нужно искать по времени
+        //TODO: возможно нужно искать по времени или по url статьи
         if let results      = managedObjectContext.executeFetchRequest(request, error: nil) as? [NewsItemEntity]
         {
             if results.count == 1
             {
-                results[0].preview  = UIImageJPEGRepresentation(image, CGFloat(70))
-                managedObjectContext.save(nil)
+                if results[0].preview.length == 0
+                {
+                    results[0].preview  = UIImageJPEGRepresentation(image, CGFloat(70))
+                    managedObjectContext.save(nil)
+                }
             }
         }
     }
@@ -342,7 +380,8 @@ class LiveGoodlineDownloader: NSObject
                     , body: ""
                     , url: cachedItem.url
                     , imageUrl: cachedItem.imageUrl
-                    , date: cachedItem.date)
+                    , date:     cachedItem.date
+                    , image:    cachedItem.preview)
                 result.append(newsItem)
             }
         }
