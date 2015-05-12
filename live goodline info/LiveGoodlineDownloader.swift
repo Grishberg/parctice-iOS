@@ -60,12 +60,21 @@ class LiveGoodlineDownloader: NSObject
         if pageIndex > 1
         {
             // поискать в кэше
-            cachedNews = self.getData(date)
-            if cachedNews.count == 10
+            // выполнять в потоке
+            let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+            let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+            dispatch_async(backgroundQueue,
             {
-                // есть нужные данные в кэше, можно их и вернуть
-                onResponseHandler(cachedNews, pageIndex, append)
-            }
+                cachedNews = self.getData(date)
+                if cachedNews.count == 10
+                {
+                    // UI  поток
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        // есть нужные данные в кэше, можно их и вернуть
+                        onResponseHandler(cachedNews, pageIndex, append)
+                    })
+                }
+            })
         }
         
 		let manager = AFHTTPRequestOperationManager()
@@ -170,36 +179,46 @@ class LiveGoodlineDownloader: NSObject
 	func getTopicPage(url:String, onResponseHandler:(String)->Void)
 	{
         // попытаться загрузить из кэша
-        let cachedNewsBody:String  = self.getNewsByUrl(url)
-        if count(cachedNewsBody) > 0
+        // выполнять в потоке
+        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+        dispatch_async(backgroundQueue,
         {
-            onResponseHandler(cachedNewsBody)
-        }
-        else
-        {
-            let manager	= AFHTTPRequestOperationManager()
-            manager.responseSerializer	= AFHTTPResponseSerializer()
-            manager.GET( url, parameters: nil,
-                success:
-                { (operation: AFHTTPRequestOperation!,
-                    responseObject: AnyObject!) in
+                
+            let cachedNewsBody:String  = self.getNewsByUrl(url)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
-                    // получили ответ, responseObject - это NSData
-                    let data:NSData	= responseObject as! NSData
-                    
-                    // парсим данные
-                    let parser		= LiveGoodlineParser()
-                    onResponseHandler( parser.parseTopicNews(data).body)
-                    self.updateNewsBodyInCash(url, body: parser.parseTopicNews(data).body)
-
-                },
-                failure:
-                { (operation: AFHTTPRequestOperation!,
-                    error: NSError!) in
-                    println("Error: " + error.localizedDescription)
+                if count(cachedNewsBody) > 0
+                {
+                    onResponseHandler(cachedNewsBody)
                 }
-            )
-        }
+                else
+                {
+                    let manager	= AFHTTPRequestOperationManager()
+                    manager.responseSerializer	= AFHTTPResponseSerializer()
+                    manager.GET( url, parameters: nil,
+                        success:
+                        { (operation: AFHTTPRequestOperation!,
+                            responseObject: AnyObject!) in
+                            
+                            // получили ответ, responseObject - это NSData
+                            let data:NSData	= responseObject as! NSData
+                            
+                            // парсим данные
+                            let parser		= LiveGoodlineParser()
+                            onResponseHandler( parser.parseTopicNews(data).body)
+                            self.updateNewsBodyInCash(url, body: parser.parseTopicNews(data).body)
+
+                        },
+                        failure:
+                        { (operation: AFHTTPRequestOperation!,
+                            error: NSError!) in
+                            println("Error: " + error.localizedDescription)
+                        }
+                    )
+                }
+            })
+        })
 	}
     
     //---------------------- работа с CORE DATA -----------------------------------
