@@ -67,6 +67,7 @@ class LiveGoodlineParser: NSObject
 	// парсинг страницы с новостью
 	func parseTopicNews(content:NSData) -> NewsElementContainer
 	{
+        var pageArray:[ArticleElement]  = []
 		var result:NewsElementContainer = NewsElementContainer()
 		var body:String = ""
 		let parser		= TFHpple(HTMLData:content)
@@ -77,15 +78,54 @@ class LiveGoodlineParser: NSObject
 			if articles.count == 1
 			{
 				body = articles[0].raw
+                
+                pageArray = self.parseBlock( articles[0] )
 			}
 		}
-		// необходимая операция для отображения картинок в удобном для просмотра масштабе
-		body = body.stringByReplacingOccurrencesOfString( "<img ", withString: "<img width=\"40%\" height=auto "
+
+        
+        // необходимая операция для отображения картинок в удобном для просмотра масштабе
+		body = body.stringByReplacingOccurrencesOfString( "<img ", withString: "<img width=\"40%\" height=auto align=\"center\" "
 				, options: nil
 				, range:nil)
+        
+        
 		result	= NewsElementContainer(title: "", body: body, url: "", imageUrl: "", dateString: "")
 		return result
 	}
+    
+    private func parseBlock(block:TFHppleElement) ->[ArticleElement]
+    {
+        var articleElements:[ArticleElement]    = []
+        var currentText:String                  = ""
+        /*
+        // цикл по детям
+        for currentElement in block[0].children as! [TFHppleElement]
+        {
+            // распознать очередной элемент
+            let tagName     = currentElement.tagName
+            let tagContent  = currentElement.content
+            switch (tagName)
+            {
+                case    "br":
+                case    "a":
+                case    "strong":
+                case    "img":
+                    let imageUrlAttr        = currentElement.objectForKey("src")
+                    let newArticleElement   = ArticleElement(imageUrl: imageUrlAttr)
+                    articleElements.append(newArticleElement)
+                case    "text":
+                    currentText += tagContent
+                default:
+                
+            }
+            
+            println("str")
+        }
+
+        */
+        return articleElements
+    }
 	// --------- вспомогательные функции -----------
 	
 	// поиск элемента

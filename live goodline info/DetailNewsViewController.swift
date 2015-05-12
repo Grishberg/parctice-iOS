@@ -49,8 +49,6 @@ class DetailNewsViewController: UIViewController
 	// функция вызывается при загрузке страницы
 	func onReceivedNews(body:String)
 	{
-		// остановить индикатор хода процесса
-		self.progressControl.stopAnimating()
 		// отобразить страницу
 		var attrStr = NSAttributedString(
 			data: body.dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!,
@@ -58,6 +56,8 @@ class DetailNewsViewController: UIViewController
 			documentAttributes: nil,
 			error: nil)
 		bodyLabel.attributedText = attrStr
+        // остановить индикатор хода процесса
+        self.progressControl.stopAnimating()
 	
 	}
 
