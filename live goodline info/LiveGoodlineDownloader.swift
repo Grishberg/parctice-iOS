@@ -90,7 +90,6 @@ class LiveGoodlineDownloader: NSObject
                         {
                             // присвоить картинку по умолчанию
                             currentNewsElement.previewImage = UIImage(named:"goodline-logo-mini.png")
-
                         }
                         
                         imageIndex++;
@@ -184,6 +183,7 @@ class LiveGoodlineDownloader: NSObject
         })
 
 	}
+    
 	// фоновое обновление картинок
 	private func updateImages(itemsForUpdate: [ImageQueueStruct], handler: (Int, UIImage?)->Void )
 	{
@@ -218,7 +218,7 @@ class LiveGoodlineDownloader: NSObject
 	}
 	
 	// загрузка статьи
-	func getTopicPage(url:String, onResponseHandler:(String)->Void)
+	func getTopicPage(url:String, onResponseHandler:([ArticleElement])->Void)
 	{
         // попытаться загрузить из кэша
         // выполнять в потоке
@@ -231,9 +231,10 @@ class LiveGoodlineDownloader: NSObject
             
             if count(cachedNewsBody) > 0
             {
+                
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
-                    onResponseHandler(cachedNewsBody)
+                    let parser		= LiveGoodlineParser()
+                    parser.parseNewsBlockFromString(cachedNewsBody, handler: onResponseHandler )
                     println("данные о странице из кэша")
                 })
             }
@@ -251,7 +252,7 @@ class LiveGoodlineDownloader: NSObject
                         
                         // парсим данные
                         let parser		= LiveGoodlineParser()
-                        onResponseHandler( parser.parseTopicNews(data).body)
+                        parser.parseNewsBlock(data, handler: onResponseHandler )
                         println("данные о странице из сети")
                         
                         // обновить в кэше данные о странице

@@ -7,34 +7,82 @@
 //
 
 import UIKit
+enum ArticleBodyElementType
+{
+    case Image
+    case Text
+    case LF
+}
+
 class ArticleElement: NSObject
 {
-    var isImage:Bool    = false
+    var elementType:ArticleBodyElementType    = ArticleBodyElementType.LF
     var text:String     = ""
-    var image:UIImage?  = nil
     var imageUrl:String = ""
+    var image:UIImage?
+    
+    var attachmentString:NSAttributedString?
+
+    
+    override init ()
+    {
+        attachmentString    = NSAttributedString(string: "\n")
+        elementType = ArticleBodyElementType.LF
+    }
     
     init(text: String)
     {
-        isImage     = false
+        elementType = ArticleBodyElementType.Text
         self.text   = text
+        attachmentString    = NSAttributedString(string: text)
     }
     
     init(image:UIImage)
     {
-        isImage     = true
+        elementType = ArticleBodyElementType.Image
         self.image  = image
+
     }
     
-    init(imageUrl:String)
+    init(imageUrl:String, handler:(Void)->Void)
     {
-        isImage     = true
-        self.imageUrl  = imageUrl
-        //TODO: можно начать загрузку фото в фоне
+        super.init()
+        elementType     = ArticleBodyElementType.Image
+        self.imageUrl   = imageUrl
+
+        // в фоне загрузить изображение
+        //TODO: делать это в классе загрузчика, учитывая кэш
+        
+        let manager     = AFHTTPRequestOperationManager()
+        manager.responseSerializer	= AFHTTPResponseSerializer()
+        
+        manager.GET( imageUrl, parameters: nil,
+            success:
+            { (operation: AFHTTPRequestOperation!,
+                responseObject: AnyObject!) in
+                
+                // получили ответ, responseObject - это NSData
+                let data:NSData	= responseObject as! NSData
+                if let newImage = UIImage(data: data)
+                {
+                    self.image  = newImage
+                    handler()
+                }
+            },
+            failure:
+            { (operation: AFHTTPRequestOperation!,
+                error: NSError!) in
+                println("Error: " + error.localizedDescription)
+            }
+        )
+
     }
     
     func appendText(text:String)
     {
         self.text += text
+        
+        let newString = attachmentString!.string + text
+        attachmentString = NSAttributedString(string: newString)
     }
 }

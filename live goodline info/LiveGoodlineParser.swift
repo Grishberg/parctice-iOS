@@ -64,10 +64,9 @@ class LiveGoodlineParser: NSObject
 		return result
 	}
 	
-	// парсинг страницы с новостью
-	func parseTopicNews(content:NSData) -> NewsElementContainer
+	// парсинг страницы с новостью, необхдимо для сохранения в кэше тела новости
+    func parseTopicNews(content:NSData) -> NewsElementContainer
 	{
-        var pageArray:[ArticleElement]  = []
 		var result:NewsElementContainer = NewsElementContainer()
 		var body:String = ""
 		let parser		= TFHpple(HTMLData:content)
@@ -78,53 +77,87 @@ class LiveGoodlineParser: NSObject
 			if articles.count == 1
 			{
 				body = articles[0].raw
-                
-                pageArray = self.parseBlock( articles[0] )
-			}
+            }
 		}
-
-        
-        // необходимая операция для отображения картинок в удобном для просмотра масштабе
-		body = body.stringByReplacingOccurrencesOfString( "<img ", withString: "<img width=\"40%\" height=auto align=\"center\" "
-				, options: nil
-				, range:nil)
-        
         
 		result	= NewsElementContainer(title: "", body: body, url: "", imageUrl: "", dateString: "")
 		return result
 	}
-    
-    private func parseBlock(block:TFHppleElement) ->[ArticleElement]
+
+    // новый парсинг статьи
+    func parseNewsBlock(content:NSData, handler: ([ArticleElement])->Void ) -> ArticleBody
     {
-        var articleElements:[ArticleElement]    = []
-        var currentText:String                  = ""
-        /*
+        let articleBody    = ArticleBody(handler: handler)
+        
+        var pageArray:[ArticleElement]  = []
+        var result:NewsElementContainer = NewsElementContainer()
+        var body:String = ""
+        let parser		= TFHpple(HTMLData:content)
+        let patternStr	= "//article/div/div[@class='topic-content text']"
+        
+        if let articles = parser.searchWithXPathQuery(patternStr) as? [TFHppleElement]
+        {
+            if articles.count == 1
+            {
+                body = articles[0].raw
+                
+                self.parseArticleBlock( articles[0], body:articleBody )
+            }
+        }
+        handler(articleBody.articleElements)
+        return articleBody
+    }
+    // парсинг из строки
+    func parseNewsBlockFromString(contentString:String, handler: ([ArticleElement])->Void ) -> ArticleBody
+    {
+        let articleBody    = ArticleBody(handler: handler)
+        
+        var pageArray:[ArticleElement]  = []
+        var result:NewsElementContainer = NewsElementContainer()
+        let contentData: NSData = (contentString as NSString).dataUsingEncoding(NSUTF8StringEncoding)!
+        let parser		= TFHpple(HTMLData:contentData)
+        let patternStr	= "//div[@class='topic-content text']"
+        
+        if let articles = parser.searchWithXPathQuery(patternStr) as? [TFHppleElement]
+        {
+            if articles.count == 1
+            {
+                self.parseArticleBlock( articles[0], body:articleBody )
+            }
+        }
+        handler(articleBody.articleElements)
+        return articleBody
+    }
+
+    
+    // рекурсивный поиск нужных элементов
+    private func parseArticleBlock(block:TFHppleElement, body: ArticleBody)
+    {
         // цикл по детям
-        for currentElement in block[0].children as! [TFHppleElement]
+        for currentElement in block.children as! [TFHppleElement]
         {
             // распознать очередной элемент
             let tagName     = currentElement.tagName
             let tagContent  = currentElement.content
             switch (tagName)
             {
-                case    "br":
-                case    "a":
-                case    "strong":
-                case    "img":
-                    let imageUrlAttr        = currentElement.objectForKey("src")
-                    let newArticleElement   = ArticleElement(imageUrl: imageUrlAttr)
-                    articleElements.append(newArticleElement)
-                case    "text":
-                    currentText += tagContent
-                default:
+            case    "br":
+                body.appendLF()
+            case    "strong","h1","h2","h3","h4","h5","h6","blockquote", "em","s","ol","a":
+                self.parseArticleBlock(currentElement, body: body)
+            case    "li":
+                body.appendLF()
+                self.parseArticleBlock(currentElement, body: body)
+            case    "img":
+                let imageUrlAttr        = currentElement.objectForKey("src")
+                body.appendImage(imageUrlAttr)
+            case    "text":
+                body.appendText( tagContent )
+            default:
+                println("new tag \(tagName)")
                 
             }
-            
-            println("str")
         }
-
-        */
-        return articleElements
     }
 	// --------- вспомогательные функции -----------
 	

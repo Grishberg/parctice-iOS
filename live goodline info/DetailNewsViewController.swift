@@ -25,7 +25,8 @@ class DetailNewsViewController: UIViewController
 	// переменные для передачи информации, пока экземпляры контролов еще не создались.
 	var titleText: String	= ""
 	var newsUrl: String		= ""
-	
+    
+    
     override func viewDidLoad()
 	{
         super.viewDidLoad()
@@ -46,16 +47,58 @@ class DetailNewsViewController: UIViewController
 		downloader.getTopicPage(self.newsUrl, onResponseHandler:  onReceivedNews)
     }
 	
+    private func calculateImageBounds(parentBounds: CGRect, imageBounds: CGSize) ->CGRect
+    {
+        var result:CGRect
+        let imageRatio: CGFloat   = imageBounds.width / imageBounds.height
+        let imageNewWidth:CGFloat = parentBounds.width
+        let imageNewHeight: CGFloat = parentBounds.width / imageRatio
+        result  = CGRectMake(0, 0, imageNewWidth, imageNewHeight)
+        
+        return result
+    }
 	// функция вызывается при загрузке страницы
-	func onReceivedNews(body:String)
+	func onReceivedNews(body:[ArticleElement])
 	{
 		// отобразить страницу
+        
+        var bodyString:NSMutableAttributedString = NSMutableAttributedString()
+        var labelBounds:CGRect = bodyLabel.bounds
+        
+        for bodyElement in body
+        {
+            switch( bodyElement.elementType)
+            {
+            case ArticleBodyElementType.Image:
+                if bodyElement.image != nil
+                {
+                    var attachment = NSTextAttachment()
+                    attachment.image    = bodyElement.image
+                    attachment.bounds   = calculateImageBounds(bodyLabel.bounds, imageBounds: attachment.image!.size)
+                    var attachmentString = NSAttributedString(attachment: attachment)
+                    bodyString.appendAttributedString(attachmentString)
+                }
+            default:
+                bodyString.appendAttributedString(bodyElement.attachmentString!)
+            }
+        }
+
+
+        bodyLabel.attributedText = bodyString
+
+        //attachment.image = UIImage(named:"goodline-logo-mini.png")
+
+        //var attachmentString = NSAttributedString(attachment: attachment)
+        
+        /*
 		var attrStr = NSAttributedString(
 			data: body.dataUsingEncoding(NSUnicodeStringEncoding, allowLossyConversion: true)!,
 			options: [ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
 			documentAttributes: nil,
 			error: nil)
-		bodyLabel.attributedText = attrStr
+*/
+//		bodyLabel.attributedText = bodyText
+        //bodyLabel.text = bodyText
         // остановить индикатор хода процесса
         self.progressControl.stopAnimating()
 	
@@ -74,7 +117,8 @@ class DetailNewsViewController: UIViewController
 		
 	}
 
-	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+	override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
+    {
 		self.dismissViewControllerAnimated(true, completion: nil)
 	}
     /*
