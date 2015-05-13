@@ -63,20 +63,25 @@ class LiveGoodlineDownloader: NSObject
         dispatch_async(backgroundQueue,
         {
 
-            if pageIndex > 1
-            {
-                // поискать в кэше
-                cachedNews = self.getData(date)
-            }
+            // поискать в кэше
+            cachedNews = self.getData(date)
+
+            //if pageIndex > 1
+            //{
+            //    // поискать в кэше
+            //    cachedNews = self.getData(date)
+            //}
             
-            if cachedNews.count == 10
+            if cachedNews.count == 10 && pageIndex > 1
             {
-                // если в кэше данных хватает - отображаем из кэша
+                // если в кэше данных хватает и это не первая страница, то отображаем из кэша
                 // UI  поток
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     // есть нужные данные в кэше, можно их и вернуть
                     
                     //исключить кэшированные элементы с картинками
+                    println("данные из кэша")
+
                     var arrayIndexesForUpdate: [ImageQueueStruct] = []
                     for currentNewsElement in cachedNews
                     {
@@ -96,7 +101,6 @@ class LiveGoodlineDownloader: NSObject
                     }
                     
                     onResponseHandler(cachedNews, pageIndex, append)
-                    println("данные из кэша")
                     if arrayIndexesForUpdate.count > 0
                     {
                         // запустить очередь обновления картинок
@@ -176,6 +180,10 @@ class LiveGoodlineDownloader: NSObject
                     failure:
                     { (operation: AFHTTPRequestOperation!,
                         error: NSError!) in
+                        // если возникла ошибка во время подключения - загружать из кэша
+                        println("данные из кэша")
+                        onResponseHandler(cachedNews, pageIndex, append)
+
                         println("Error: " + error.localizedDescription)
                     }
                 )

@@ -17,38 +17,33 @@ enum ArticleBodyElementType
 class ArticleElement: NSObject
 {
     var elementType:ArticleBodyElementType    = ArticleBodyElementType.LF
-    var text:String     = ""
-    var imageUrl:String = ""
     var image:UIImage?
-    
     var attachmentString:NSAttributedString?
 
     
     override init ()
     {
-        attachmentString    = NSAttributedString(string: "\n")
+        attachmentString    = NSAttributedString()
         elementType = ArticleBodyElementType.LF
     }
     
-    init(text: String)
+    convenience init(text: String)
     {
+        self.init()
         elementType = ArticleBodyElementType.Text
-        self.text   = text
-        attachmentString    = NSAttributedString(string: text)
+        self.appendText(text)
     }
     
     init(image:UIImage)
     {
         elementType = ArticleBodyElementType.Image
         self.image  = image
-
     }
-    
+    // инициализировать ссылкой на изображение, загрузить в фоне картинку
     init(imageUrl:String, handler:(Void)->Void)
     {
         super.init()
         elementType     = ArticleBodyElementType.Image
-        self.imageUrl   = imageUrl
 
         // в фоне загрузить изображение
         //TODO: делать это в классе загрузчика, учитывая кэш
@@ -80,9 +75,9 @@ class ArticleElement: NSObject
     
     func appendText(text:String)
     {
-        self.text += text
-        
-        let newString = attachmentString!.string + text
+        var textWithoutLF   = text.stringByReplacingOccurrencesOfString( "\n", withString: "", options: nil, range:nil)
+        textWithoutLF       = textWithoutLF.stringByReplacingOccurrencesOfString( "\r", withString: "", options: nil, range:nil)
+        let newString       = attachmentString!.string + textWithoutLF
         attachmentString = NSAttributedString(string: newString)
     }
 }

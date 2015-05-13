@@ -88,7 +88,7 @@ class ArticleBody: NSObject
             if  articleElements[ lastIndex ].elementType == ArticleBodyElementType.Text ||
                 articleElements[ lastIndex ].elementType == ArticleBodyElementType.Image
             {
-                articleElements.append( ArticleElement() )
+                articleElements.append( ArticleElement(text: "\n") )
             }
         }
     }

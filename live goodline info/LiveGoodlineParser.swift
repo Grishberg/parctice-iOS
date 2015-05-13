@@ -143,6 +143,9 @@ class LiveGoodlineParser: NSObject
             {
             case    "br":
                 body.appendLF()
+            case    "p":
+                self.parseArticleBlock(currentElement, body: body)
+                body.appendLF()
             case    "strong","h1","h2","h3","h4","h5","h6","blockquote", "em","s","ol","a":
                 self.parseArticleBlock(currentElement, body: body)
             case    "li":
