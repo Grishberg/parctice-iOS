@@ -121,7 +121,7 @@ class LiveGoodlineDownloader: NSObject
                         
                         // получили ответ, responseObject - это NSData
                         let data:NSData	= responseObject as! NSData
-
+                        
                         // парсим данные
                         let parser		= LiveGoodlineParser()
                         var topicList:[NewsElementContainer]	= parser.parseTopicListNews(data)
@@ -130,21 +130,20 @@ class LiveGoodlineDownloader: NSObject
                         //////////////////////////////////////
                         // для отладки пул ту рефреша
                         //////////////////////////////////////
-                        if pageIndex == 1 && append
-                        {
-                            topicList.removeAtIndex(0)
-                        }
+                        //if pageIndex == 1 && append
+                        //{
+                        //    topicList.removeAtIndex(0)
+                        //}
                         //////////////////////////////////////
-
-                        for var i = 0; i < cachedNews.count; i++
+                        for topicElement in topicList
                         {
-                            if i < topicList.count
+                            for cachedElement in cachedNews
                             {
-                                topicList[i] = cachedNews[i]
-                            }
-                            else
-                            {
-                                topicList.append(cachedNews[i])
+                                if topicElement.compare(cachedElement) == 0
+                                {
+                                    topicElement.previewImage = cachedElement.previewImage
+                                    continue
+                                }
                             }
                         }
                         //self.addNessesaryNews(topicList, append:append)
